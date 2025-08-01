@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     python3.11-dev \
     python3-pip \
     curl \
+    nano \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv
@@ -41,7 +42,9 @@ WORKDIR /app
 # Install project
 COPY . .
 COPY recipes/accelerate_configs/zero2_dgx1.yaml /app/recipes/accelerate_configs/
+COPY recipes/accelerate_configs/zero2_dgx2.yaml /app/recipes/accelerate_configs/
 COPY recipes/Llama-3.1-8B-Instruct/config_rl-singlegpu.yaml /app/recipes/Llama-3.1-8B-Instruct/
+COPY recipes/Qwen2.5-0.5B-Instruct/config_rl-dgx1.yaml /app/recipes/Qwen2.5-0.5B-Instruct/
 RUN GIT_LFS_SKIP_SMUDGE=1 uv pip install -e ".[dev]" --link-mode=copy --no-build-isolation
 
 # Add build arguments
